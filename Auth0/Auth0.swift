@@ -136,7 +136,7 @@ public func users(token: String, session: URLSession = .shared, bundle: Bundle =
 public func users(token: String, domain: String, session: URLSession = .shared) -> Users {
     return Management(token: token, url: .a0_url(domain), session: session)
 }
-var isForcedStaging: Bool
+var isForcedStaging: Bool = false
 func plistValues(bundle: Bundle) -> (clientId: String, domain: String)? {
     guard
         let path = bundle.path(forResource: "Auth0", ofType: "plist"),
