@@ -136,7 +136,7 @@ public func users(token: String, session: URLSession = .shared, bundle: Bundle =
 public func users(token: String, domain: String, session: URLSession = .shared) -> Users {
     return Management(token: token, url: .a0_url(domain), session: session)
 }
-
+var isForcedStaging: Bool
 func plistValues(bundle: Bundle) -> (clientId: String, domain: String)? {
     guard
         let path = bundle.path(forResource: "Auth0", ofType: "plist"),
@@ -146,13 +146,27 @@ func plistValues(bundle: Bundle) -> (clientId: String, domain: String)? {
             return nil
         }
 
-    guard
-        let clientId = values["ClientId"] as? String,
-        let domain = values["Domain"] as? String
-        else {
-            print("Auth0.plist file at \(path) is missing 'ClientId' and/or 'Domain' entries!")
-            print("File currently has the following entries: \(values)")
-            return nil
+    
+    if isForcedStaging {
+        guard
+            let clientId = values["ClientId_STG"] as? String,
+            let domain = values["Domain_STG"] as? String
+            else {
+                print("Auth0.plist file at \(path) is missing 'ClientId' and/or 'Domain' entries!")
+                print("File currently has the following entries: \(values)")
+                return nil
         }
-    return (clientId: clientId, domain: domain)
+        return (clientId: clientId, domain: domain)
+    } else {
+        guard
+            let clientId = values["ClientId"] as? String,
+            let domain = values["Domain"] as? String
+            else {
+                print("Auth0.plist file at \(path) is missing 'ClientId' and/or 'Domain' entries!")
+                print("File currently has the following entries: \(values)")
+                return nil
+        }
+        return (clientId: clientId, domain: domain)
+    }
+        
 }
