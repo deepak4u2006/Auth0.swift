@@ -156,6 +156,7 @@ func plistValues(bundle: Bundle) -> (clientId: String, domain: String)? {
                 print("File currently has the following entries: \(values)")
                 return nil
         }
+        print("File currently has the following entries:\(clientId), \(domain)")
         return (clientId: clientId, domain: domain)
     } else {
         guard
@@ -166,6 +167,7 @@ func plistValues(bundle: Bundle) -> (clientId: String, domain: String)? {
                 print("File currently has the following entries: \(values)")
                 return nil
         }
+        print("File currently has the following entries:\(clientId), \(domain)")
         return (clientId: clientId, domain: domain)
     }
         
